@@ -1,0 +1,14 @@
+{
+  "name": "Platform Spoofer (Example)",
+  "description": "Example skeleton for a platform/device spoofer plugin. Replace the properties with ones generated from the HTML tool.",
+  "authors": [
+    {
+      "name": "You",
+      "id": "000000000000000000"
+    }
+  ],
+  "main": "index.js",
+  "vendetta": {
+    "icon": "ic_phone_24px"
+  }
+}

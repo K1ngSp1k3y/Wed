@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discord Device Spoofer • Revenge Test</title>
+  <style>
+    :root {
+      --bg: #1e1f22;
+      --bg2: #2b2d31;
+      --bg3: #313338;
+      --text: #f2f3f5;
+      --muted: #b5bac1;
+      --accent: #5865f2;
+      --accent-hover: #4752c4;
+      --green: #23a559;
+      --border: #3f4147;
+      --yellow: #f0b232;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+      line-height: 1.45;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 {
+      font-size: 1.7rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .subtitle { color: var(--muted); margin-bottom: 22px; font-size: 0.95rem; }
+    .warning {
+      background: #3c2a1e;
+      border: 1px solid var(--yellow);
+      color: var(--yellow);
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .device-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.15s;
+      text-align: center;
+      user-select: none;
+    }
+    .device-btn:hover { background: var(--bg3); border-color: var(--accent); }
+    .device-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .card {
+      background: var(--bg2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .card h2 {
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    pre {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.84rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    button.action {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.15s;
+    }
+    button.action:hover { background: var(--accent-hover); }
+    button.secondary {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+    }
+    button.secondary:hover { background: #3a3c42; }
+    .copied { background: var(--green) !important; }
+    .info {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .ua-box {
+      background: var(--bg);
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      word-break: break-all;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      <svg width="32" height="32" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.453286 45.4204 0.53613C44.7963 1.64911 44.105 3.08305 43.6209 4.2216C38.1637 3.40406 32.7345 3.40406 27.3892 4.2216C26.905 3.05816 26.1886 1.64911 25.5617 0.53613C25.5141 0.453286 25.4218 0.39851 25.3294 0.41542C20.2584 1.28816 15.4057 2.81834 10.8776 4.8978C10.8383 4.9147 10.8046 4.94287 10.7808 4.97929C1.57775 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.599 16.3292 45.5858C16.1893 45.5045 16.1781 45.304 16.3068 45.2081C16.679 44.9294 17.0513 44.6393 17.4067 44.3463C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2788 53.4831 44.2901 53.5501 44.3438C53.9055 44.6369 54.2777 44.9294 54.6527 45.2081C54.7813 45.304 54.7729 45.5045 54.633 45.5858C52.8643 46.6197 51.0256 47.4931 49.0917 48.2229C48.9658 48.2707 48.9098 48.4172 48.9714 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.4562 70.6943 45.3914C72.1735 30.0876 68.2077 16.7814 60.1265 4.97929C60.1055 4.94287 60.0719 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3457 34.1136 17.3457 30.1693C17.3457 26.225 20.1714 23.0133 23.7259 23.0133C27.308 23.0133 30.1623 26.2532 30.106 30.1693C30.106 34.1136 27.2803 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9377 34.1136 40.9377 30.1693C40.9377 26.225 43.7634 23.0133 47.3178 23.0133C50.9 23.0133 53.7543 26.2532 53.698 30.1693C53.698 34.1136 50.9 37.3253 47.3178 37.3253Z" fill="#5865F2"/>
+      </svg>
+      Device Spoofer
+    </h1>
+    <p class="subtitle">For Revenge / Discord testing • Generates platform properties used in gateway IDENTIFY</p>
+
+    <div class="warning">
+      <strong>Test / Educational use only.</strong><br>
+      Client modifications and selfbots violate Discord's Terms of Service. Use at your own risk. This tool only generates the property objects — it does not connect or login.
+    </div>
+
+    <div class="grid" id="deviceGrid"></div>
+
+    <div class="card">
+      <h2>WebSocket Properties (IDENTIFY)</h2>
+      <pre id="propsOutput">Select a device above...</pre>
+      <div class="actions">
+        <button class="action" onclick="copyProps()">Copy JSON</button>
+        <button class="action secondary" onclick="copyUA()">Copy User-Agent</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>User-Agent</h2>
+      <div class="ua-box" id="uaOutput">—</div>
+    </div>
+
+    <div class="card">
+      <h2>How to use with Revenge plugins</h2>
+      <div class="info">
+        1. Host this folder (or just the generated JSON) somewhere (GitHub Pages, Cloudflare Pages, etc.)<br>
+        2. In a custom Revenge plugin you can hardcode or fetch these properties and patch the gateway socket send (op 2).<br>
+        3. Common approach: intercept the IDENTIFY payload and replace <code>properties</code> with the object above.<br><br>
+        This page is intentionally a pure static tester so you can quickly generate the correct objects for your plugin.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const devices = {
+      desktop: {
+        name: "Desktop Client",
+        props: {
+          os: "Windows",
+          browser: "Discord Client",
+          device: "",
+          system_locale: "en-US",
+          browser_user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) discord/1.0.9188 Chrome/130.0.6723.191 Electron/33.4.0 Safari/537.36",
+          browser_version: "130.0.6723.191",
+          os_version: "10",
+          referrer: "",
+          referring_domain: "",
+          referrer_current: "",
+          referring_domain_current: "",
+          release_channel: "stable",
+          client_build_number: 340001,
+          client_event_source: null,
+          design_id: 0
+        }
+      },
+      web: {
+        name: "Web",
+        props: {
+          os: "Windows",
+          browser: "Chrome",
+          device: "",
+          system_locale: "en-US",
+          browser_user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+          browser_version: "130.0.0.0",
+          os_version: "10",
+          referrer: "",
+          referring_domain: "",
+          referrer_current: "",
+          referring_domain_current: "",
+          release_channel: "stable",
+          client_build_number: 340001,
+          client_event_source: null
+        }
+      },
+      android: {
+        name: "Android",
+        props: {
+          os: "Android",
+          browser: "Discord Android",
+          device: "Pixel 8 Pro",
+          system_locale: "en-US",
+          browser_user_agent: "Discord-Android/240.15; Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36",
+          browser_version: "240.15",
+          os_version: "14",
+          client_build_number: 240015,
+          client_version: "240.15 - Stable",
+          release_channel: "googleRelease",
+          device_vendor_id: "google"
+        }
+      },
+      ios: {
+        name: "iOS",
+        props: {
+          os: "iOS",
+          browser: "Discord iOS",
+          device: "iPhone 15 Pro",
+          system_locale: "en-US",
+          browser_user_agent: "Discord-iOS/240.0; (iPhone; iOS 17.5; Scale/3.00)",
+          browser_version: "240.0",
+          os_version: "17.5",
+          client_build_number: 240000,
+          client_version: "240.0",
+          release_channel: "stable"
+        }
+      },
+      ps5: {
+        name: "PlayStation 5",
+        props: {
+          os: "PlayStation 5",
+          browser: "Discord Embedded",
+          device: "PlayStation 5",
+          system_locale: "en-US",
+          client_build_number: 0
+        }
+      },
+      xbox: {
+        name: "Xbox",
+        props: {
+          os: "Xbox",
+          browser: "Discord Embedded",
+          device: "Xbox Series X",
+          system_locale: "en-US",
+          client_build_number: 0
+        }
+      },
+      vr: {
+        name: "Meta Quest (VR)",
+        props: {
+          os: "Android",
+          browser: "Discord VR",
+          device: "Meta Quest 3",
+          system_locale: "en-US",
+          browser_user_agent: "Discord-VR/1.0",
+          client_build_number: 0
+        }
+      },
+      linux: {
+        name: "Linux Desktop",
+        props: {
+          os: "Linux",
+          browser: "Discord Client",
+          device: "",
+          system_locale: "en-US",
+          browser_user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.72 Chrome/128.0.6613.186 Electron/32.2.2 Safari/537.36",
+          browser_version: "128.0.6613.186",
+          os_version: "",
+          release_channel: "stable",
+          client_build_number: 340001
+        }
+      }
+    };
+
+    let currentKey = "desktop";
+
+    function renderButtons() {
+      const grid = document.getElementById("deviceGrid");
+      grid.innerHTML = "";
+      for (const [key, dev] of Object.entries(devices)) {
+        const btn = document.createElement("div");
+        btn.className = "device-btn" + (key === currentKey ? " active" : "");
+        btn.textContent = dev.name;
+        btn.onclick = () => selectDevice(key);
+        grid.appendChild(btn);
+      }
+    }
+
+    function selectDevice(key) {
+      currentKey = key;
+      renderButtons();
+      updateOutput();
+    }
+
+    function updateOutput() {
+      const dev = devices[currentKey];
+      document.getElementById("propsOutput").textContent = JSON.stringify(dev.props, null, 2);
+      document.getElementById("uaOutput").textContent = dev.props.browser_user_agent || "(no UA for this platform)";
+    }
+
+    function copyProps() {
+      const text = document.getElementById("propsOutput").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "Copy JSON";
+          btn.classList.remove("copied");
+        }, 1500);
+      });
+    }
+
+    function copyUA() {
+      const text = document.getElementById("uaOutput").textContent;
+      if (text.startsWith("(")) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "Copy User-Agent";
+          btn.classList.remove("copied");
+        }, 1500);
+      });
+    }
+
+    // Init
+    renderButtons();
+    updateOutput();
+  </script>
+</body>
+</html>
